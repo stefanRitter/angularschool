@@ -1,9 +1,55 @@
 <html>
   <head>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.js"></script>
+
+    <style type="text/css">
+      .text-warning {
+        color: Red;
+      }
+    </style>
   </head>
   <body ng-app ng-init="name = 'World'">
     Say hello to: <input type="text" ng-model="name">
     <h1>Hello, {{name}}!</h1>
+
+
+    <script type="text/javascript">
+      var MAX_LEN = 60,
+          WARN_THRESHOLD = 21;
+
+      var TextAreaWithLimitCtrl = function ($scope) {
+        $scope.message = '';
+
+        $scope.remaining = function () {
+          return MAX_LEN - $scope.message.length;
+        };
+
+        $scope.shouldWarn = function () {
+          return $scope.remaining() < WARN_THRESHOLD;
+        };
+
+        $scope.hasValidLength = function() {
+          return $scope.message.length <= MAX_LEN;
+        }
+
+        $scope.clear = function () {
+          $scope.message = '';
+        }
+
+        $scope.send = function () {
+          console.log($scope.message);
+        }
+      };
+    </script>
+    
+    <div ng-controller="TextAreaWithLimitCtrl">
+      <span ng-class="{'text-warning' : shouldWarn()}">Remaining: {{remaining()}}</span>
+      <div>
+        <textarea ng-model="message">{{message}}</textarea>
+      </div>
+      <div class="row">
+        <button ng-click="send()" ng-disabled="!hasValidLength()">Send</button>
+        <button ng-click="clear()">Clear</button>
+    </div>
   </body>
 </html>
