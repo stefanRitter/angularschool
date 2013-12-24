@@ -10,3 +10,8 @@ angular-carousel
 
 angular-snap
 
+bindonce (remove watch from static ng-repeat)
+
+FastClick
+
+batch http requests
