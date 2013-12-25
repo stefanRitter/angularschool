@@ -3,5 +3,19 @@ h1,h2,h3,h4,h5 {
 }
 
 button {
-  margin-bottom: 0px !important;
+  clear: both;
+  display: block;
+}
+
+img {
+  width: 300px;
+}
+
+ul {
+  list-style: none;
+  clear: both;
+}
+ul li {
+  float: left;
+  margin-left: 20px;
 }

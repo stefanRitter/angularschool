@@ -29,9 +29,13 @@ app.controller('LoginController', function($scope, $location) {
 });
 
 
-app.controller('HomeController', function($scope) {
+app.controller('HomeController', function($scope, $location) {
   $scope.title = 'Scoped Title';
   $scope.message = 'Mouse over these images...';
+
+  $scope.logout = function() {
+     $location.path('/login');
+  };
 });
 
 app.directive('showsMessageWhenHovered', function() {
