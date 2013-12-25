@@ -1,3 +1,5 @@
+// tutorial by David Mosher: http://www.youtube.com/watch?v=8ILQOFAgaXE
+
 
 var app = angular.module('app', [])
 	.config(function($routeProvider){
