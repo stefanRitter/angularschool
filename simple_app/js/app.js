@@ -7,12 +7,28 @@ var app = angular.module('app', [])
       controller: 'LoginController'
     });
 
+    $routeProvider.when('/home', {
+      templateUrl: 'home.html',
+      controller: 'HomeController'
+    });
+
     $routeProvider.otherwise({
       redirectTo: '/login'
     });
 
 });
 
-app.controller('LoginController', function() {}
+app.controller('LoginController', function($scope, $location) {
+  $scope.credentials = { username: "", password: ""};
+  
+  $scope.login = function() {
+    if ($scope.credentials.username === 'blub') {
+      $location.path('/home');
+    }
+  };
+});
+
+
+app.controller('HomeController', function() {}
 
 );
