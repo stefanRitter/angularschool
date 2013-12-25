@@ -18,25 +18,39 @@ var app = angular.module('app', [])
 
 });
 
-app.controller('LoginController', function($scope, $location) {
-  $scope.credentials = { username: "", password: ""};
-  
-  $scope.login = function() {
-    if ($scope.credentials.username === 'blub') {
-      $location.path('/home');
+
+app.factory('AuthenticationService', function($location) {
+  return {
+    login: function(credentials) {
+      if (credentials.username === 'blub') {
+        $location.path('/home');
+      }
+    },
+    logout: function() {
+      $location.path('/login');
     }
   };
 });
 
 
-app.controller('HomeController', function($scope, $location) {
+app.controller('LoginController', function($scope, AuthenticationService) {
+  $scope.credentials = { username: "", password: ""};
+  
+  $scope.login = function() {
+    AuthenticationService.login($scope.credentials);
+  };
+});
+
+
+app.controller('HomeController', function($scope, AuthenticationService) {
   $scope.title = 'Scoped Title';
   $scope.message = 'Mouse over these images...';
 
   $scope.logout = function() {
-     $location.path('/login');
+    AuthenticationService.logout();
   };
 });
+
 
 app.directive('showsMessageWhenHovered', function() {
   return {
