@@ -29,6 +29,26 @@ app.controller('LoginController', function($scope, $location) {
 });
 
 
-app.controller('HomeController', function() {}
+app.controller('HomeController', function($scope) {
+  $scope.title = 'Scoped Title';
+  $scope.message = 'Mouse over these images...';
+});
 
-);
+app.directive('showsMessageWhenHovered', function() {
+  return {
+    restrict: 'A', // A = Attribute, C = Classname, E = Element, M = HTML Comment
+    link: function (scope, element, attributes) {
+      var originalMessage = scope.message;
+      
+      element.bind('mouseover', function() {
+        scope.message = attributes.message;
+        scope.$apply();
+      });
+      
+      element.bind('mouseout', function() {
+        scope.message = originalMessage;
+        scope.$apply();
+      });
+    }
+  };
+});
