@@ -15,3 +15,7 @@ bindonce (remove watch from static ng-repeat)
 FastClick
 
 batch http requests
+
+
+security:
+http://www.amitavroy.com/justread/content/articles/phonegap-app-angularjs-fetching-data-drupal
