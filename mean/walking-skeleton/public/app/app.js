@@ -1,0 +1,2 @@
+angular.modul('', ['ngResource', 'ngRoute']);
+
