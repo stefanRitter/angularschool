@@ -1,4 +1,5 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+    crypto = require('crypto');
 
 module.exports = function (config) {
   mongoose.connect(config.datastoreURI);
@@ -9,18 +10,47 @@ module.exports = function (config) {
     console.log('db connection opened');
   });
 
+  // seed users
   var userSchema = mongoose.Schema({
     firstName: String,
     lastName: String,
-    username: String
+    username: String,
+    salt: String,
+    password: String
   });
+
+  // remove sensitive data
+  userSchema.methods.safe = function () {
+    return {
+      firstName: this.firstName,
+      lastName: this.lastName,
+      username: this.username,
+    };
+  };
+
+  userSchema.methods.authenticated = function (passwordToMatch) {
+    return hashPwd(this.salt, passwordToMatch) === this.password;
+  };
 
   var User = mongoose.model('User', userSchema);
   User.find({}).exec(function (err, collection) {
     if (collection.length === 0) {
-      User.create({firstName: 'Stefan', lastName: 'Ritter', username: 'stef'});
-      User.create({firstName: 'Paul', lastName: 'Hammer', username: 'paul'});
-      User.create({firstName: 'Jakob', lastName: 'Steiner', username: 'jakob'});
+      var salt = createSalt();
+      var pwd = hashPwd(salt, 'test');
+
+      User.create({firstName: 'Stefan', lastName: 'Ritter', username: 'stef', salt: salt, password: pwd});
+      User.create({firstName: 'Paul', lastName: 'Hammer', username: 'paul', salt: salt, password: pwd});
+      User.create({firstName: 'Jakob', lastName: 'Steiner', username: 'jakob', salt: salt, password: pwd});
     }
   });
 };
+
+
+function createSalt() {
+  return crypto.randomBytes(128).toString('base64');
+}
+
+function hashPwd(salt, pwd) {
+  var hmac = crypto.createHmac('sha1', salt);
+  return hmac.update(pwd).digest('hex');
+}

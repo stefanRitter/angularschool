@@ -14,12 +14,13 @@ require('./server/config/express.js')(app, config);
 // setup datastore
 require('./server/config/mongoose.js')(config);
 
+
 // setup auth
 var User = mongoose.model('User');
 passport.use(new LocalStrategy(
   function (username, password, done) {
     User.findOne({username: username}).exec(function (err, user) {
-      if (user) {
+      if (user && user.authenticated(password)) {
         return done(null, user);
       } else {
         return done(null, false);
@@ -41,6 +42,7 @@ passport.deserializeUser(function (id, done) {
     }
   });
 });
+
 
 // setup routes
 require('./server/config/routes.js')(app);
