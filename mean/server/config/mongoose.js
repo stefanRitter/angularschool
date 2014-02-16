@@ -16,7 +16,8 @@ module.exports = function (config) {
     lastName: String,
     username: String,
     salt: String,
-    password: String
+    password: String,
+    roles: [String]
   });
 
   // remove sensitive data
@@ -25,6 +26,7 @@ module.exports = function (config) {
       firstName: this.firstName,
       lastName: this.lastName,
       username: this.username,
+      roles: this.roles
     };
   };
 
@@ -38,8 +40,8 @@ module.exports = function (config) {
       var salt = createSalt();
       var pwd = hashPwd(salt, 'test');
 
-      User.create({firstName: 'Stefan', lastName: 'Ritter', username: 'stef', salt: salt, password: pwd});
-      User.create({firstName: 'Paul', lastName: 'Hammer', username: 'paul', salt: salt, password: pwd});
+      User.create({firstName: 'Stefan', lastName: 'Ritter', username: 'stef', salt: salt, password: pwd, roles: ['admin']});
+      User.create({firstName: 'Paul', lastName: 'Hammer', username: 'paul', salt: salt, password: pwd, roles: []});
       User.create({firstName: 'Jakob', lastName: 'Steiner', username: 'jakob', salt: salt, password: pwd});
     }
   });

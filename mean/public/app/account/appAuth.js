@@ -1,5 +1,5 @@
 
-angular.module('app').factory('appAuth', function ($http, $q, appIdentity) {
+angular.module('app').factory('appAuth', function ($http, $q, appIdentity, appUser) {
   return {
     authenticateUser: function (username, password) {
       var dfd = $q.defer();
@@ -8,7 +8,9 @@ angular.module('app').factory('appAuth', function ($http, $q, appIdentity) {
         .post('/login', {username: username, password: password})
         .then(function (res) {
           if (res.data.success) {
-            appIdentity.currentUser = res.data.user;
+            var user = new appUser();
+            angular.extend(user, res.data.user);
+            appIdentity.currentUser = user;
             dfd.resolve(true);
           } else {
             dfd.resolve(false);

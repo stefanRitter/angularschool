@@ -1,5 +1,10 @@
-angular.module('app').factory('appIdentity', function ($window) {
-  var currentUser = $window.bootstrappedUser || undefined;
+angular.module('app').factory('appIdentity', function ($window, appUser) {
+  var currentUser;
+  
+  if (!!$window.bootstrappedUser) {
+    currentUser = new appUser();
+    angular.extend(currentUser, $window.bootstrappedUser);
+  }
 
   return {
     currentUser: currentUser,
