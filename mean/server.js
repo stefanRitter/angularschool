@@ -43,6 +43,11 @@ passport.deserializeUser(function (id, done) {
   });
 });
 
+app.use(function (req, res, next) {
+  console.log(req.user);
+  next();
+});
+
 
 // setup routes
 require('./server/config/routes.js')(app);

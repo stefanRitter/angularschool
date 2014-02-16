@@ -1,6 +1,8 @@
-angular.module('app').factory('appIdentity', function () {
+angular.module('app').factory('appIdentity', function ($window) {
+  var currentUser = $window.bootstrappedUser || undefined;
+
   return {
-    currentUser: undefined,
+    currentUser: currentUser,
     isAuthenticated: function () {
       return !!this.currentUser;
     }

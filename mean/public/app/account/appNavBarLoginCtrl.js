@@ -1,5 +1,5 @@
 
-angular.module('app').controller('appNavBarLoginCtrl', function ($scope, appAuth, appNotifier, appIdentity) {
+angular.module('app').controller('appNavBarLoginCtrl', function ($scope, $location, appAuth, appNotifier, appIdentity) {
   
   $scope.identity = appIdentity;
 
@@ -14,5 +14,13 @@ angular.module('app').controller('appNavBarLoginCtrl', function ($scope, appAuth
           appNotifier.notify('username/password combination incorrect');
         }
       });
+  };
+
+  $scope.signout = function () {
+    appAuth.logoutUser().then(function() {
+      $scope.username = $scope.password = '';
+      appNotifier.notify('You are now logged out!');
+      $location.path('/');
+    });
   };
 });

@@ -16,6 +16,19 @@ angular.module('app').factory('appAuth', function ($http, $q, appIdentity) {
         });
 
       return dfd.promise;
+    },
+
+    logoutUser: function () {
+      var dfd = $q.defer();
+
+      $http
+        .post('/logout', {logout: true})
+        .then(function (res) {
+          appIdentity.currentUser = undefined;
+          dfd.resolve(true);
+        });
+
+      return dfd.promise;
     }
   };
 });
