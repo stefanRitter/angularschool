@@ -1,5 +1,5 @@
 var mongoose = require('mongoose'),
-    crypto = require('crypto');
+    encrypt = require('../utils/encryption.js');
 
 module.exports = function (config) {
   mongoose.connect(config.datastoreURI);
@@ -31,14 +31,14 @@ module.exports = function (config) {
   };
 
   userSchema.methods.authenticated = function (passwordToMatch) {
-    return hashPwd(this.salt, passwordToMatch) === this.password;
+    return encrypt.hashPwd(this.salt, passwordToMatch) === this.password;
   };
 
   var User = mongoose.model('User', userSchema);
   User.find({}).exec(function (err, collection) {
     if (collection.length === 0) {
-      var salt = createSalt();
-      var pwd = hashPwd(salt, 'test');
+      var salt = encrypt.createSalt();
+      var pwd = encrypt.hashPwd(salt, 'test');
 
       User.create({firstName: 'Stefan', lastName: 'Ritter', username: 'stef', salt: salt, password: pwd, roles: ['admin']});
       User.create({firstName: 'Paul', lastName: 'Hammer', username: 'paul', salt: salt, password: pwd, roles: []});
@@ -46,13 +46,3 @@ module.exports = function (config) {
     }
   });
 };
-
-
-function createSalt() {
-  return crypto.randomBytes(128).toString('base64');
-}
-
-function hashPwd(salt, pwd) {
-  var hmac = crypto.createHmac('sha1', salt);
-  return hmac.update(pwd).digest('hex');
-}
