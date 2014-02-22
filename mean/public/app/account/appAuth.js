@@ -20,6 +20,20 @@ angular.module('app').factory('appAuth', function ($http, $q, appIdentity, appUs
       return dfd.promise;
     },
 
+    createUser: function (newUserData) {
+      var newUser = new appUser(newUserData);
+      var dfd = $q.defer();
+
+      newUser.$save().then(function () {
+        appIdentity.currentUser = newUser;
+        dfd.resolve(true);
+      }, function (response) {
+        dfd.reject(response.data.reason);
+      });
+
+      return dfd.promise;
+    },
+
     logoutUser: function () {
       var dfd = $q.defer();
 

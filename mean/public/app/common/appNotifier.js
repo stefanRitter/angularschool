@@ -5,6 +5,10 @@ angular.module('app').factory('appNotifier', function (appToastr) {
     notify: function (msg) {
       appToastr.success(msg);
       console.log(msg);
+    },
+    error: function (msg) {
+      appToastr.error(msg);
+      console.log(msg);
     }
   };
 });
