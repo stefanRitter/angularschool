@@ -4,7 +4,7 @@ angular.module('app').controller('appSignupCtrl', function ($scope, $location, a
     var newUserData = {
       username: $scope.email,
       password: $scope.password,
-      fistName: $scope.fname,
+      firstName: $scope.fname,
       lastName: $scope.lname
     };
 

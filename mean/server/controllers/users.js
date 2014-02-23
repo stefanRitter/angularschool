@@ -12,6 +12,8 @@ exports.getUser = function (req, res) {
 
 exports.createUser = function (req, res, next) {
   var userBody = req.body;
+  
+  userBody.username = userBody.username.toLowerCase();
   userBody.salt = encrypt.createSalt();
   userBody.password = encrypt.hashPwd(userBody.salt, userBody.password);
 
@@ -21,7 +23,7 @@ exports.createUser = function (req, res, next) {
         err = new Error('Dublicate Username');
       }
       
-      res.satus(400);
+      res.status(400);
       return res.send({reason: err.toString()});
     }
 
