@@ -34,6 +34,19 @@ angular.module('app').factory('appAuth', function ($http, $q, appIdentity, appUs
       return dfd.promise;
     },
 
+    updateCurrentUser: function (updatedUser) {
+      var dfd = $q.defer();
+
+      updatedUser.$update().then(function () {
+        appIdentity.currentUser = updatedUser;
+        dfd.resolve(true);
+      }, function (response) {
+        dfd.reject(response.data.reason);
+      });
+
+      return dfd.promise;
+    },
+
     logoutUser: function () {
       var dfd = $q.defer();
 
@@ -49,6 +62,13 @@ angular.module('app').factory('appAuth', function ($http, $q, appIdentity, appUs
 
     authorizeCurrentUserForRoute: function (role) {
       if (appIdentity.isAuthorized('admin')) {
+        return true;
+      }
+      return $q.reject('not authorized');
+    },
+
+    authorizeLeggedInUserForRoute: function () {
+      if (appIdentity.isAuthenticated()) {
         return true;
       }
       return $q.reject('not authorized');

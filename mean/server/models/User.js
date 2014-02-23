@@ -26,6 +26,10 @@ userSchema.methods.safe = function () {
   };
 };
 
+userSchema.methods.hasRole = function (role) {
+  return this.roles.indexOf(role) > -1;
+};
+
 userSchema.methods.authenticated = function (passwordToMatch) {
   return encrypt.hashPwd(this.salt, passwordToMatch) === this.password;
 };
