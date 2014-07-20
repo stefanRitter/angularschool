@@ -1,5 +1,5 @@
 
-describe('expenseController', function () {
+describe('expensesController', function () {
 
   var $controllerConstructor,
       scope;
@@ -11,7 +11,7 @@ describe('expenseController', function () {
   }));
 
   it('should have three expense items', function () {
-    var ctrl = $controllerConstructor('expenseController', {$scope: scope});
+    var ctrl = $controllerConstructor('expensesController', {$scope: scope});
     expect(ctrl.expenseItems.length).toBe(3);
   });
 
