@@ -8,7 +8,7 @@ describe('expenseController', function () {
   beforeEach(inject(function ($controller, $rootScope) {
     $controllerConstructor = $controller;
     scope = $rootScope.$new();
-  });
+  }));
 
   it('should have three expense items', function () {
     var ctrl = $controllerConstructor('expenseController', {$scope: scope});

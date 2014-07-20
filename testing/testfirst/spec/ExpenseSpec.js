@@ -12,7 +12,7 @@ describe('Expense Objects', function () {
     expect(expense.expenseItem).toBe(expenseItem);
   });
 
-  id('should have the correct expense amount', function () {
+  it('should have the correct expense amount', function () {
     expect(expenseItem.amount).toEqual(100);
   });
 });
