@@ -3,3 +3,7 @@ function ExpenseItem (type, description, amount) {
   this.description = description
   this.amount = amount;
 }
+
+ExpenseItem.prototype.isReasonable = function () {
+  return this.amount <= 100;
+};
