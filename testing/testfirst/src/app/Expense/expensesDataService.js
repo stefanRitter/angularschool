@@ -11,6 +11,14 @@
           new ExpenseItem('Lunch', 'At airport', 15.40),
           new ExpenseItem('Coffee', 'Starbucks', 4.93)
         ];
+      },
+
+      persistExpenses: function (reportExpenses) {
+        reportExpenses();
+      },
+
+      reportExpenses: function () {
+        
       }
     };
 
